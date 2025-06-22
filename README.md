@@ -4,9 +4,9 @@ This repository contains a comprehensive tutorial for building AI-powered agents
 
 ## Tutorial Structure
 
-### [Part 1: Build a Restaurant Agent](./Part1_Build_Restuarant_Agent/Readme.md)
+### [Part 1: Build a Restaurant Menu Agent](./Part1_Build_Restuarant_Agent/Readme.md)
 
-This part covers the fundamentals of the Semantic Kernel. You will build a simple "Restaurant Agent" that can answer questions about a restaurant's menu.
+This part covers the fundamentals of the Semantic Kernel. You will build a simple "Restaurant Menu Agent" that can answer questions about a restaurant's menu.
 
 **Key concepts covered:**
 - Setting up Semantic Kernel with OpenAI

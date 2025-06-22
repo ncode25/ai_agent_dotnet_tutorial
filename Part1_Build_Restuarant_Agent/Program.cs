@@ -8,7 +8,7 @@ using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 
 Console.WriteLine("Welcome to the Restaurant Menu Agent Builder!");
-Console.WriteLine("This application will help you create a simple restaurant agent using Semantic Kernel in .NET.");
+Console.WriteLine("This application will help you create a simple restaurant menu agent using Semantic Kernel in .NET.");
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Configuration.AddUserSecrets<Program>();

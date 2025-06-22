@@ -5,11 +5,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+using Microsoft.Extensions.Configuration;
 
-Console.WriteLine("Welcome to the Restaurant Agent Builder!");
-Console.WriteLine("This application will help you create a simple restaurant agent using Semantic Kernel in .NET.");
+Console.WriteLine("Welcome to the Restaurant Menu Agent Builder!");
+Console.WriteLine("This application will help you create a simple restaurant menu agent using Semantic Kernel in .NET.");
 
 var builder = Host.CreateApplicationBuilder(args);
+builder.Configuration.AddUserSecrets<Program>();
 builder.Services.AddSingleton<KernelServiceLLM>(); 
 
 var app = builder.Build();

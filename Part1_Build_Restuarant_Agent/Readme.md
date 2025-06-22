@@ -1,6 +1,6 @@
-# Part 1: Build a Restaurant Agent
+# Part 1: Build a Restaurant Menu Agent
 
-Welcome to the first part of the .NET AI Agent tutorial! In this section, you will build a simple but powerful "Restaurant Agent" using the Microsoft Semantic Kernel and OpenAI.
+Welcome to the first part of the .NET AI Agent tutorial! In this section, you will build a simple but powerful "Restaurant Menu Agent" using the Microsoft Semantic Kernel and OpenAI.
 
 ## Goal
 
@@ -56,6 +56,8 @@ After running the application, a console window will appear. You can start askin
 - "What kind of soups do you have?"
 - "Tell me about the T-Bone Steak."
 - "What is the most expensive item on the menu?"
+- "List all vegan dishes on the menu."
+- "What are the chicken dishes on menu?"
 
 To exit the application, simply close the console window or press `Ctrl+C`.
 

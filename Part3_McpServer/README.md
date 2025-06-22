@@ -62,6 +62,34 @@ Once the server is running, you can start one or more client applications to int
 
 A new console window will open for each client instance. You can type questions and get responses from the central agent server. This setup allows multiple users to chat with the same agent simultaneously.
 
+### 4. Configure the Client (Optional)
+
+The client project can be configured to use either a local Ollama model or a cloud-based OpenAI model. By default, it uses a local model. You can configure the model IDs and the OpenAI API key using the .NET User Secrets store.
+
+1.  **Initialize User Secrets for the Client:**
+    Open a terminal in the client's directory (`Part3_McpServer/Mcp.Client.Local`) and run:
+    ```bash
+    dotnet user-secrets init
+    ```
+
+2.  **Set the Configuration Keys:**
+    Run the following commands to set the desired model IDs and API key.
+
+    *   **For OpenAI (if you want to use it):**
+        ```bash
+        dotnet user-secrets set "OpenAI:ModelId" "your_model_id"
+        dotnet user-secrets set "OpenAI:ApiKey" "your_api_key_here"
+        ```
+
+    *   **For Ollama (to use a different local model):**
+        It is highly recommended to use a `mistral` model (e.g., `mistral:latest`) when running an LLM locally, as many other models do not reliably support the tool-use capabilities required for this part of the tutorial.
+        ```bash
+        dotnet user-secrets set "Ollama:ModelId" "mistral:latest"
+        ```
+        > **Note:** Local LLMs are powerful, but due to their smaller size and the constraints of local hardware, they may sometimes provide inaccurate or "hallucinated" answers compared to large, cloud-based models.
+
+    You will also need to uncomment the `AddOpenAIChatCompletion` line and comment out the `AddOllamaChatCompletion` line in the `Mcp.Client.Local/Program.cs` file to switch to the OpenAI model.
+
 ## Project Structure
 
 - **`Mcp.Server.Local/`**: The server project.

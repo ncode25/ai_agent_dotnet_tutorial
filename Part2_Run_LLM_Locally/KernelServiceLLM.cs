@@ -1,26 +1,28 @@
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+using Microsoft.Extensions.Configuration;
 
 public class KernelServiceLLM
 {
     public readonly Kernel _kernel;
     private readonly MenuPlugin _menuPlugin;
-    private const string ModelId = "deepseek-r1:latest";
+    private readonly string _modelId;
 
 
-    public KernelServiceLLM()
+    public KernelServiceLLM(IConfiguration configuration)
     {
+        _modelId = configuration["Ollama:ModelId"] ?? "llama3:latest";
         var builder = Kernel.CreateBuilder();
         var handler = GetHttpClientHandler();
 
         var httpClient = new HttpClient(handler)
         {
-            BaseAddress = new Uri("http://localhost:11434"),
+            BaseAddress = new Uri("http://localhost:11434"), // update to your local port
             Timeout = TimeSpan.FromSeconds(300) // Set timeout to 5 minutes becuase local LLMs can take longer to respond
         };
 
-        builder.AddOllamaChatCompletion(ModelId, httpClient);
+        builder.AddOllamaChatCompletion(_modelId, httpClient);
 
         builder.Plugins.AddFromType<MenuPlugin>();
         _kernel = builder.Build();
@@ -36,25 +38,11 @@ public class KernelServiceLLM
        ChatHistory chatHistory,
        OpenAIPromptExecutionSettings settings)
     {
-        if (ModelId.Contains("gpt-", StringComparison.CurrentCultureIgnoreCase) || ModelId.Contains("mistral", StringComparison.CurrentCultureIgnoreCase))
-        {
-            var chatClient = _kernel.GetRequiredService<IChatCompletionService>();
-            await foreach (var chatUpdate in chatClient.GetStreamingChatMessageContentsAsync(
-                chatHistory,
-                settings,
-                _kernel
-            ))
+
+        await foreach (var chatUpdate in GetStreamingChatMessageContentsAsync(chatHistory))
             {
                 yield return chatUpdate;
             }
-        }
-        else
-        {
-            await foreach (var chatUpdate in GetStreamingChatMessageContentsAsync(chatHistory))
-            {
-                yield return chatUpdate;
-            }
-        }
     }
 
 

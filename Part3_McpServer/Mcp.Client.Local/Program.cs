@@ -3,6 +3,9 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 using ModelContextProtocol.Client;
 using ModelContextProtocol.Protocol.Transport;
 using Microsoft.SemanticKernel.Connectors.Ollama;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Mcp.Client.Local
 {
@@ -11,6 +14,10 @@ namespace Mcp.Client.Local
     {
         static async Task Main()
         {
+            var builder = Host.CreateApplicationBuilder();
+            builder.Configuration.AddUserSecrets<Program>();
+            var config = builder.Build().Services.GetRequiredService<IConfiguration>();
+
             var clientTransport = new StdioClientTransport(new StdioClientTransportOptions
             {
                 Name = "Local-MCP-Server",
@@ -33,7 +40,7 @@ namespace Mcp.Client.Local
                 Console.WriteLine($"{tool.Name}: {tool.Description}");
             }
 
-            var kernel = CreateBuilder();
+            var kernel = CreateBuilder(config);
 
             kernel.Plugins.AddFromFunctions("LocalMCPServer",
                 tools.Select(aiFunction => aiFunction.AsKernelFunction()));
@@ -52,11 +59,11 @@ namespace Mcp.Client.Local
         }
 
 
-        private static Kernel CreateBuilder()
+        private static Kernel CreateBuilder(IConfiguration config)
         {
-            var ModelId = "gpt-4o";
-            var ApiKey = "your_api_key_here"; // only required if you are using cloud based Open AI LLM
-            var ModelId_Local = "mistral:latest";
+            var modelId = config["OpenAI:ModelId"] ?? "gpt-4o";
+            var apiKey = config["OpenAI:ApiKey"]; // only required if you are using cloud based Open AI LLM
+            var modelId_Local = config["Ollama:ModelId"] ?? "mistral:latest";
 
 
             var builder = Kernel.CreateBuilder();
@@ -64,7 +71,7 @@ namespace Mcp.Client.Local
 
             // Uncomment below lines if you want to use Open AI chat completion. Comment OllamaChatCompletion
             // var httpclient = new HttpClient(handler);
-            // builder.AddOpenAIChatCompletion(modelId: ModelId, apiKey: ApiKey, httpClient: httpclient);
+            // builder.AddOpenAIChatCompletion(modelId: modelId, apiKey: apiKey, httpClient: httpclient);
 
             
             var httpClient = new HttpClient(handler)
@@ -72,7 +79,7 @@ namespace Mcp.Client.Local
                 BaseAddress = new Uri("http://localhost:11434"),
                 Timeout = TimeSpan.FromSeconds(300) // Set timeout to 5 minutes becuase local LLMs can take longer to respond
             };
-            builder.AddOllamaChatCompletion(ModelId_Local, httpClient);
+            builder.AddOllamaChatCompletion(modelId_Local, httpClient);
 
             Kernel kernel = builder.Build();
             return kernel;
