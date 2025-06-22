@@ -3,19 +3,20 @@ using Microsoft.Extensions.Logging;
 using Part1_Build_Restuarant_Agent;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+using Microsoft.Extensions.Configuration;
 
 public class KernelService
 {
     public readonly Kernel _kernel;
-    private const string ModelId = "gpt-4o";
-    private const string ApiKey = "your_api_key_here";
 
-    public KernelService()
+    public KernelService(IConfiguration configuration)
     {
         var builder = Kernel.CreateBuilder();
         var handler = GetHttpClientHandler();
         var httpclient = new HttpClient(handler);
-        builder.AddOpenAIChatCompletion(modelId: ModelId, apiKey: ApiKey, httpClient: httpclient);
+        var modelId = configuration["OpenAI:ModelId"] ?? "gpt-4o";
+        var apiKey = configuration["OpenAI:ApiKey"];
+        builder.AddOpenAIChatCompletion(modelId: modelId, apiKey: apiKey, httpClient: httpclient);
         builder.Plugins.AddFromType<KnowledgePlugin>();
         _kernel = builder.Build();
     }

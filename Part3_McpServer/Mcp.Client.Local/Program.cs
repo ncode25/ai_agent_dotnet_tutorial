@@ -55,7 +55,7 @@ namespace Mcp.Client.Local
         private static Kernel CreateBuilder()
         {
             var ModelId = "gpt-4o";
-            var ApiKey = "your_api_key_here";
+            var ApiKey = "your_api_key_here"; // only required if you are using cloud based Open AI LLM
             var ModelId_Local = "mistral:latest";
 
 

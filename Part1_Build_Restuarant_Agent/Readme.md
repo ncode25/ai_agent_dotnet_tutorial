@@ -22,7 +22,16 @@ To run this project, you need an OpenAI API key. The project is set up to read t
 **Set the API key using the .NET CLI:**
 
 1. Open a terminal in this directory (`Part1_Build_Restuarant_Agent`).
-2. Run the following command, replacing `"your_api_key_here"` with your actual OpenAI API key 
+2. Initialize user secrets for the project. This only needs to be done once.
+    ```bash
+    dotnet user-secrets init
+    ```
+3. Run the following command, replacing `"your_api_key_here"` with your actual OpenAI API key and optionally specifying a `model_id`. If `model_id` is not provided, it will default to `gpt-4o`.
+
+```bash
+dotnet user-secrets set "OpenAI:ApiKey" "your_api_key_here"
+dotnet user-secrets set "OpenAI:ModelId" "your_model_id"
+```
 
 ### 2. Run the Application
 
