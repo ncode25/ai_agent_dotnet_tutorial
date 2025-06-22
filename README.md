@@ -22,7 +22,7 @@ In the second part, you will learn how to switch from a cloud-based LLM service 
 - Running local LLMs like Llama 3
 - Modifying the agent to use a local model
 
-### [Part 3: Multi-Client/Server Agent](./Part3_McpServer/README.md)
+### [Part 3: Multi-Client/Server Agent using Model Context Protocol](./Part3_McpServer/README.md) 
 
 The final part demonstrates a more advanced architecture where a central agent server manages the core logic and multiple clients can connect to it.
 

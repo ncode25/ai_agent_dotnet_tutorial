@@ -1,6 +1,6 @@
 # Part 3: Multi-Client/Server Agent
 
-This final part of the tutorial demonstrates how to build a more robust and scalable AI agent using a client/server architecture. You will create a central agent server that hosts the Semantic Kernel and a separate client application that connects to it.
+This final part of the tutorial demonstrates how to build a more robust and scalable AI agent using a client/server architecture using Model Context Protocol. You will create a central agent server that hosts the Semantic Kernel and a separate client application that connects to it.
 
 ## Goal
 
@@ -12,6 +12,7 @@ The goal is to create a system where the AI agent runs as a background service (
 - How to create a .NET client application to communicate with the agent server.
 - The fundamentals of building a multi-component application with dependencies.
 - A practical architecture for deploying AI agents in a real-world scenario.
+- How to use the Model Context Protocol (MCP) for standardized client-server communication.
 
 ## How to Run This Project
 
@@ -91,6 +92,8 @@ The client project can be configured to use either a local Ollama model or a clo
     You will also need to uncomment the `AddOpenAIChatCompletion` line and comment out the `AddOllamaChatCompletion` line in the `Mcp.Client.Local/Program.cs` file to switch to the OpenAI model.
 
 ## Project Structure
+
+The project is named `Mcp` as a shorthand for Model Context Protocol.
 
 - **`Mcp.Server.Local/`**: The server project.
   - **`Program.cs`**: Sets up and runs the agent server.
